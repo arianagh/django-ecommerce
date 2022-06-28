@@ -1,0 +1,118 @@
+{% extends 'index.html' %}
+{% load humanize %}
+{% load static %}
+
+<html class="no-js" lang="fa" dir="rtl">
+
+
+{% block content %}
+
+<body>
+    <!--breadcrumbs area start-->
+    <div class="breadcrumbs_area">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="breadcrumb_content">
+                        <ul>
+                            <li><a href="../../../templates/index.html">خانه</a></li>
+                            <li>پرداخت</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--breadcrumbs area end-->
+
+    <!--Checkout page section-->
+    <div class="checkout_page_bg">
+        <div class="container">
+            <div class="Checkout_section">
+                <div class="checkout_form">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6">
+                            <div class="checkout_form_left">
+                                <form action="{% url 'show_checkout'%}"  method="post">
+                                    <h3>جزئیات پرداخت</h3>
+                                    <div class="row">
+                                   {% csrf_token %}
+                                    {{ form.as_table }}
+                                        <div class="col-12">
+                                     <a href="{% url 'address' %}" class="button">تغییر آدرس </a>
+                                        </div>
+                                    </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 col-md-6">
+                            <div class="checkout_form_right">
+                                    <h3>سفارش شما</h3>
+                                    <div class="order_table table-responsive">
+										<table>
+											<thead>
+												<tr>
+													<th>محصول</th>
+													<th>جمع</th>
+												</tr>
+											</thead>
+                                       {% for item in order_items %}
+											<tbody>
+												<tr>
+													<td>
+                                                        <span class="d-inline-block">{{ item.product.product_name}}</span> <strong> * {{ item.quantity }}</strong>
+                                                    </td>
+                                                    <td>{{ item.product_sum_price }}</td>
+                                    {% endfor %}
+                                                </tr>
+                                            </tbody>
+											<tfoot>
+												<tr>
+													<th>جمع سبد</th>
+													<td>{{request.order.cart_summation|intcomma:3}}</td>
+												</tr>
+
+												<tr class="order_total">
+													<th>مجموع سفارش</th>
+													<td><strong>{{request.order.cart_summation|intcomma:3}}</strong></td>
+												</tr>
+											</tfoot>
+										</table>
+                                    </div>
+									<div class="payment_method" id="accordion">
+                                        <div class="panel-default">
+                                            <p>*هزینه ی ارسال عادی ۱۰۰۰۰  تومان میباشد. </p>
+                                            <p>*هزینه ی ارسال با پست پیشتاز ۵۰۰۰۰  تومان میباشد. </p>
+
+                                        </div>
+                                        </div>
+                                        <div class="order_button">
+                                            <button type="submit">ادامه پرداخت</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Checkout page section end-->
+
+    {% endblock content %}
+
+    <!-- JS
+============================================ -->
+
+    <!-- Plugins JS -->
+    <script src="../../../static/assets/js/plugins.js"></script>
+
+    <!-- Main JS -->
+    <script src="../../../static/assets/js/main.js"></script>
+
+
+
+</body>
+
+</html>

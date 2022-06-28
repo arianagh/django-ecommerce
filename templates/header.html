@@ -1,0 +1,167 @@
+{% load static %}
+{% load humanize %}
+<header>
+        <div class="main_header header_four">
+            <div class="container">
+
+                <div class="header_middle header_middle_style4">
+                    <div class="row align-items-center">
+                        <div class="column1 col-lg-3 col-md-6">
+                            <div class="logo">
+                                <a href="index.html"><img src="assets/img/logo/logo.png" alt=""></a>
+                            </div>
+                        </div>
+                        <div class="column2 col-lg-6 col-md-12">
+                            <div class="search_container">
+                                <form action="#">
+                                    <div class="hover_category">
+                                    </div>
+                                    <div class="search_box">
+                                        <input placeholder="جستجوی محصول ..." type="text">
+                                        <button type="submit">جستجو</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="column3 col-lg-3">
+                            <div class="header_configure_area header_configure_four">
+                                <div class="header_wishlist">
+                                    <a href="wishlist.html"><i class="ion-android-favorite-outline"></i>
+                                        <span class="wishlist_count">3</span>
+                                    </a>
+                                </div>
+                                <div class="mini_cart_wrapper">
+                                    <a href="javascript:void(0)">
+                                        <i class="fa fa-shopping-bag"></i>
+
+                                        <span class="cart_price"><span>{{ request.order.cart_summation|intcomma:3 }}</span> <i class="ion-ios-arrow-down"></i></span>
+                                        <span class="cart_count">{{request.order.order_items_cardinality}}</span>
+
+                                    </a>
+                                    <!--mini cart-->
+
+                                    <div class="mini_cart">
+                                        <div class="mini_cart_inner">
+
+                                        {% for item in order_items  %}
+
+                                            <div class="cart_item">
+                                                <div class="cart_img">
+                                                    <a href="#"><img src="{{item.product.image.url}}" alt=""></a>
+                                                </div>
+
+                                                <div class="cart_info">
+
+                                                    <a href="#">{{ item.product.product_name}}</a>
+                                                    <p>تعداد {{item.quantity}} × <span> {{ item.product.price_after_discount|intcomma:3 }} </span></p>
+                                                </div>
+                                                <div class="cart_remove">
+                                                    <a href="{% url 'remove' item.product.id %}"><i class="ion-android-close"></i></a>
+                                                </div>
+                                            </div>
+
+                                            {% endfor %}
+
+										</div>
+										<div class="mini_cart_table">
+
+											<div class="cart_total mt-10">
+												<span>جمع کل:</span>
+												<span class="price">{{request.order.cart_summation|intcomma:3}}</span>
+											</div>
+										</div>
+                                        <div class="mini_cart_footer">
+                                            <div class="cart_button">
+                                                <a href="{% url 'show_cart' %}">مشاهده سبد</a>
+                                            </div>
+                                            <div class="cart_button">
+                                                <a href="{% url 'show_checkout' %}">پرداخت</a>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                    <!--mini cart end-->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!--header bottom satrt-->
+                <div class="header_bottom">
+                    <div class="row align-items-center">
+                        <div class="column1 col-lg-3 col-md-6">
+                            <div class="categories_menu categories_four">
+                                <div class="categories_title">
+<!--                                    <h2 class="categori_toggle">دسته بندی ها</h2>-->
+                                </div>
+                                <div class="categories_menu_toggle">
+                                    {% for category in categories %}
+
+                                    <ul>
+                                        <li class="menu_item_children"><a href="#">{{ category.category_name }} <i class="fa fa-angle-left"></i></a>
+<!--                                            <ul class="categories_mega_menu">-->
+<!--                                                {% for sub in category.sub_category.all %}-->
+<!--                                                <li class="menu_item_children"><a href="#">{{ sub.category }}</a>-->
+<!--                                                    <ul class="categorie_sub_menu">-->
+<!--                                                        <li><a href="">زیر پیراهن</a></li>-->
+<!--                                                        <li><a href="">عصرانه</a></li>-->
+<!--                                                        <li><a href="">روزانه</a></li>-->
+<!--                                                        <li><a href="">ورزشی</a></li>-->
+<!--                                                    </ul>-->
+<!--                                                </li>-->
+<!--                                        {% endfor %}-->
+
+                                        <li id="cat_toggle" class="has-sub"><a href="#"> دسته های بیشتر</a>
+                                            <ul class="categorie_sub">
+                                                <li><a href="#">دسته های پنهان</a></li>
+                                            </ul>
+
+                                        </li>
+
+                                    </ul>
+                                        {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column2 col-lg-6 ">
+                            <div class="main_menu menu_four menu_position text-center">
+                                <nav>
+                                    <ul>
+                                        <li>
+                                            <a href="{% url 'home' %}">خانه </a>
+                                        </li>
+                                        <li class="mega_items">
+                                            <a href="{% url 'shop' %}">فروشگاه</a>
+                                        </li>
+                                        <li><a href="#">صفحات <i class="fa fa-angle-down"></i></a>
+                                            <ul class="sub_menu pages">
+                                                <li><a href="about.html">درباره ما</a></li>
+                                                <li><a href="faq.html">سوالات متداول</a></li>
+                                                <li><a href="privacy-policy.html">سیاست حریم خصوصی</a></li>
+                                                <li><a href="contact.html">تماس</a></li>
+                                                <li><a href="coming-soon.html">به زودی</a></li>
+                                            </ul>
+                                        </li>
+
+                                        {% if user.is_authenticated %}
+                                        <li><a href="{% url 'logout' %}">خروج</a></li>
+                                        {% else %}
+                                            <li><a href="{% url 'login' %}">ورود</a></li>
+                                        <li><a href="{% url 'signup_customer' %}">ثبت نام کاربر</a></li>
+                                        <li><a href="{% url 'signup_supplier' %}">ثبت نام عرضه کننده</a></li>
+                                        {% endif %}
+                                        <li><a href="{% url 'profile' %}">حساب کاربری</a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!--header bottom end-->
+            </div>
+        </div>
+    </header>
